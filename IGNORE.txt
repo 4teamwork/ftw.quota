@@ -1,0 +1,6 @@
+# created by: svn propset svn:ignore -F ./IGNORE.txt .
+
+ftw.quota.egg-info
+build
+dist
+

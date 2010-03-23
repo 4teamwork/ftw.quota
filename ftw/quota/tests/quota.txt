@@ -1,0 +1,156 @@
+
+Create a folder
+
+    >>> from ftw.quota.interfaces import IQuotaSupport
+    >>> from zope.interface import alsoProvides
+    >>> myid = self.folder.invokeFactory('Folder', 'qfolder')
+    >>> qfolder = self.folder[myid]
+    >>> IQuotaSupport.providedBy(qfolder)
+    False
+
+Enable quota support
+
+    >>> alsoProvides(qfolder, IQuotaSupport)
+    >>> IQuotaSupport.providedBy(qfolder)
+    True
+
+By default, no quota limit is set and quota is enabled.
+
+    >>> schema = qfolder.Schema()
+    >>> field = schema.getField('quota')
+    >>> field.get(qfolder)
+    -1
+    >>> field = schema.getField('usage')
+    >>> field.get(qfolder)
+    0
+    >>> field = schema.getField('enforce')
+    >>> field.get(qfolder)
+    True
+    
+Set quota to 100 Bytes.
+
+    >>> field = schema.getField('quota')
+    >>> field.set(qfolder, 100)
+
+Make archetypes objects quota aware
+
+    >>> from zope.interface import classImplements
+    >>> from Products.Archetypes.BaseObject import BaseObject
+    >>> from ftw.quota.interfaces import IQuotaAware
+    >>> classImplements(BaseObject, IQuotaAware)
+
+Add a file and call processForm(), this will fire an ObjectInitializedEvent event.
+
+    >>> myid = qfolder.invokeFactory('File', 'file1')
+    >>> file1 = qfolder[myid]
+    >>> file1.processForm()
+    >>> file1
+    <ATFile at ...>
+
+Now let's create a file with a size of 70 bytes
+
+    >>> from StringIO import StringIO
+    >>> dummyfile = StringIO(70*'1')
+    >>> myid = qfolder.invokeFactory('File', 'file2', file=dummyfile)
+    >>> file2 = qfolder[myid]
+    >>> file2.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    70
+    
+Let's add that file again, this should exceed our quota.
+This is signaled by a Redirect Exception.
+
+    >>> dummyfile.seek(0)
+    >>> myid = qfolder.invokeFactory('File', 'file3', file=dummyfile)
+    >>> file3 = qfolder[myid]
+    >>> file3.processForm()
+    Traceback (most recent call last):
+    ..
+    Redirect: ...
+
+Modify an existing file by replacing its content with a too large file.
+
+    >>> dummyfile = StringIO(100*'1')
+    >>> file1.setFile(dummyfile)
+    >>> file1.processForm()
+    Traceback (most recent call last):
+    ..
+    Redirect: ...
+
+Mofify an existing file by replacing its content with a smaller file.
+We should get back some space.
+
+    >>> dummyfile = StringIO(50*'1')
+    >>> file2.setFile(dummyfile)
+    >>> file2.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    50
+
+Add a file and remove it. We should get back some space after removing the file.
+
+    >>> dummyfile = StringIO(20*'1')
+    >>> myid = qfolder.invokeFactory('File', 'file4', file=dummyfile)
+    >>> file4 = qfolder[myid]
+    >>> file4.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    70
+    >>> qfolder.manage_delObjects([myid,])
+    >>> schema.getField('usage').get(qfolder)
+    50
+
+Try to copy a file from another folder into our quota enabled folder, which
+exceeds our quota.
+
+
+    >>> dummyfile = StringIO(110*'1')
+    >>> myid = self.folder.invokeFactory('File', 'file4', file=dummyfile)
+    >>> file4 = qfolder[myid]
+    >>> file4.processForm()
+    >>> cp_data = self.folder.manage_copyObjects(ids=[myid])
+    >>> qfolder.manage_pasteObjects(cp_data)
+    Traceback (most recent call last):
+    ..
+    Redirect: ...
+
+Add a file and move it outside of our quota enabled folder. We should get
+back the space occupied by the file.
+
+    >>> dummyfile = StringIO(20*'1')
+    >>> myid = qfolder.invokeFactory('File', 'file5', file=dummyfile)
+    >>> file5 = qfolder[myid]
+    >>> file5.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    70
+    >>> import transaction
+    >>> dummy = transaction.savepoint() # needed for cutObjects
+    >>> cp_data = qfolder.manage_cutObjects(ids=[myid,])
+    >>> dummy = self.folder.manage_pasteObjects(cp_data)
+    >>> schema.getField('usage').get(qfolder)
+    50
+
+Move a file from one folder to another. Always inside a quota enabled folder.
+Space usage should remain the same.
+
+    >>> myid = qfolder.invokeFactory('Folder', 'subfolder')
+    >>> subfolder = qfolder[myid]
+    >>> dummyfile = StringIO(20*'1')
+    >>> myid = subfolder.invokeFactory('File', 'file1', file=dummyfile)
+    >>> file1 = subfolder[myid]
+    >>> file1.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    71
+    >>> dummy = transaction.savepoint() # needed for cutObjects
+    >>> cp_data = subfolder.manage_cutObjects(ids=[myid,])
+    >>> dummy = qfolder.manage_pasteObjects(cp_data)
+    >>> schema.getField('usage').get(qfolder)
+    71
+
+Disable quota enforcement. Now we can go over quota :-)
+
+    >>> schema.getField('enforce').set(qfolder, False)
+    >>> dummyfile = StringIO(1000*'1')
+    >>> myid = qfolder.invokeFactory('File', 'file6', file=dummyfile)
+    >>> file6 = qfolder[myid]
+    >>> file6.processForm()
+    >>> schema.getField('usage').get(qfolder)
+    1071

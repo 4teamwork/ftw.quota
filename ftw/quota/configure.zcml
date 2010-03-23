@@ -1,0 +1,37 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ftw.quota">
+
+    <five:registerPackage package="." initialize=".initialize" />
+    <!--i18n:registerTranslations directory="locales" /-->
+
+    <!-- schema extender for quota support -->
+    <include package="archetypes.schemaextender" />
+    <adapter factory="ftw.quota.extender.QuotaExtender"/>
+
+    <!-- event handlers for quota monitoring -->
+    <subscriber for=".interfaces.IQuotaAware
+                     Products.Archetypes.interfaces.IObjectEditedEvent"
+                handler=".handlers.object_added_or_modified" />
+                
+    <subscriber for=".interfaces.IQuotaAware
+                     Products.Archetypes.interfaces.IObjectInitializedEvent"
+                handler=".handlers.object_added_or_modified" />
+
+    <subscriber for=".interfaces.IQuotaAware
+                     OFS.interfaces.IObjectWillBeMovedEvent"
+                handler=".handlers.object_moved" />
+
+    <!-- quota storage -->
+    <adapter factory=".adapters.QuotaSizeAnnotation" />
+
+    <!-- example: make archetypes objects quota aware -->
+    <!--five:implements
+        class="Products.Archetypes.BaseObject.BaseObject"
+        interface="ftw.quota.interfaces.IQuotaAware"
+    /-->
+
+
+</configure>
