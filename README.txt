@@ -19,7 +19,7 @@ content type that you want to count quota for.
 To make all archetypes objects quota aware e.g. you can use the following
 zcml directive.
 
-    <five:implements
-        class="Products.Archetypes.BaseObject.BaseObject"
-        interface="ftw.quota.interfaces.IQuotaAware"
-    />
+>>> <five:implements
+...     class="Products.Archetypes.BaseObject.BaseObject"
+...     interface="ftw.quota.interfaces.IQuotaAware"
+... />

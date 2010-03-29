@@ -1,7 +1,13 @@
 Changelog
 =========
 
-1.0dev (unreleased)
--------------------
 
-- Initial release
+1.0a1
+-----
+
+* Package cleanup
+  [29.03.2010, jbaumann]
+  
+* Intial implementation
+  [23.03.2010, buchberger]
+  
