@@ -9,7 +9,9 @@
 
     <!-- schema extender for quota support -->
     <include package="archetypes.schemaextender" />
-    <adapter factory="ftw.quota.extender.QuotaExtender"/>
+    <adapter 
+        name="ftw.quota.extender.QuotaExtender"
+        factory="ftw.quota.extender.QuotaExtender"/>
 
     <!-- event handlers for quota monitoring -->
     <subscriber for=".interfaces.IQuotaAware

@@ -24,7 +24,7 @@ class QuotaExtender(object):
         QuotaIntegerField("quota",
             schemata = 'quota',
             required = False,
-            default = -1,
+            default = 52428800,
             write_permission = ManagePortal,
             searchable = False,
                 widget = atapi.IntegerWidget(
@@ -52,7 +52,7 @@ class QuotaExtender(object):
             schemata = 'quota',
             required = False,
             default = True,
-            write_premission = ManagePortal,
+            write_permission = ManagePortal,
             widget = atapi.BooleanWidget(
                 label = _(u'label_enforce', default=u'Enforce Quota'),
                 description = _(u'help_enforce', default=u''),
