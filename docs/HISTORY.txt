@@ -5,6 +5,8 @@ Changelog
 1.0a4
 -----
 
+* Fixed default quota in test.
+  [Thomas Buchberger]
 
 1.0a3
 -----

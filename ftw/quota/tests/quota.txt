@@ -14,12 +14,12 @@ Enable quota support
     >>> IQuotaSupport.providedBy(qfolder)
     True
 
-By default, no quota limit is set and quota is enabled.
+By default, the quota limit is set to 50MB and quota is enabled.
 
     >>> schema = qfolder.Schema()
     >>> field = schema.getField('quota')
     >>> field.get(qfolder)
-    -1
+    52428800
     >>> field = schema.getField('usage')
     >>> field.get(qfolder)
     0
