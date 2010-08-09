@@ -104,7 +104,7 @@ exceeds our quota.
 
     >>> dummyfile = StringIO(110*'1')
     >>> myid = self.folder.invokeFactory('File', 'file4', file=dummyfile)
-    >>> file4 = qfolder[myid]
+    >>> file4 = folder[myid]
     >>> file4.processForm()
     >>> cp_data = self.folder.manage_copyObjects(ids=[myid])
     >>> qfolder.manage_pasteObjects(cp_data)
@@ -138,12 +138,12 @@ Space usage should remain the same.
     >>> file1 = subfolder[myid]
     >>> file1.processForm()
     >>> schema.getField('usage').get(qfolder)
-    71
+    70
     >>> dummy = transaction.savepoint() # needed for cutObjects
     >>> cp_data = subfolder.manage_cutObjects(ids=[myid,])
     >>> dummy = qfolder.manage_pasteObjects(cp_data)
     >>> schema.getField('usage').get(qfolder)
-    71
+    70
 
 Disable quota enforcement. Now we can go over quota :-)
 
@@ -153,4 +153,4 @@ Disable quota enforcement. Now we can go over quota :-)
     >>> file6 = qfolder[myid]
     >>> file6.processForm()
     >>> schema.getField('usage').get(qfolder)
-    1071
+    1070
