@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-03-30 14:39+0000\n"
+"POT-Creation-Date: 2010-08-10 14:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,31 +12,31 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ftw.quota\n"
 
-#: ftw.quota/ftw/quota/extender.py:58
+#: ./ftw/quota/extender.py:58
 msgid "help_enforce"
-msgstr ""
+msgstr "Wenn 'Kontingent-Regeln durchsetzen' aktiviert ist, können keine Dateien mehr hochgeladen werden. Sobald das Quotalimit erreicht ist"
 
-#: ftw.quota/ftw/quota/extender.py:32
+#: ./ftw/quota/extender.py:32
 msgid "help_quota"
-msgstr ""
+msgstr "Mit Quotas können sie definieren wie viel Speicherplatz der Arbeitsraum zur Verfügung hat"
 
 #. Default: "Enforce Quota"
-#: ftw.quota/ftw/quota/extender.py:57
+#: ./ftw/quota/extender.py:57
 msgid "label_enforce"
 msgstr "Kontingent-Regeln durchsetzen"
 
 #. Default: "Quota (Bytes)"
-#: ftw.quota/ftw/quota/extender.py:31
+#: ./ftw/quota/extender.py:31
 msgid "label_quota"
 msgstr "Disk Kontingent (Bytes)"
 
 #. Default: "Usage (Bytes)"
-#: ftw.quota/ftw/quota/extender.py:44
+#: ./ftw/quota/extender.py:44
 msgid "label_usage"
 msgstr "Gebraucht (Bytes)"
 
 #. Default: "Quota exceeded."
-#: ftw.quota/ftw/quota/handlers.py:32
+#: ./ftw/quota/handlers.py:32
 msgid "msg_quota_exceeded"
 msgstr "Das Speicher Kontingent ist aufgebraucht."
 

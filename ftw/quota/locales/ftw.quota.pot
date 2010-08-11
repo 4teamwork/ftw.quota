@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-03-30 14:39+0000\n"
+"POT-Creation-Date: 2010-08-10 14:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ftw.quota\n"
 
-#: ftw.quota/ftw/quota/extender.py:58
+#: ./ftw/quota/extender.py:58
 msgid "help_enforce"
 msgstr ""
 
-#: ftw.quota/ftw/quota/extender.py:32
+#: ./ftw/quota/extender.py:32
 msgid "help_quota"
 msgstr ""
 
 #. Default: "Enforce Quota"
-#: ftw.quota/ftw/quota/extender.py:57
+#: ./ftw/quota/extender.py:57
 msgid "label_enforce"
 msgstr ""
 
 #. Default: "Quota (Bytes)"
-#: ftw.quota/ftw/quota/extender.py:31
+#: ./ftw/quota/extender.py:31
 msgid "label_quota"
 msgstr ""
 
 #. Default: "Usage (Bytes)"
-#: ftw.quota/ftw/quota/extender.py:44
+#: ./ftw/quota/extender.py:44
 msgid "label_usage"
 msgstr ""
 
 #. Default: "Quota exceeded."
-#: ftw.quota/ftw/quota/handlers.py:32
+#: ./ftw/quota/handlers.py:32
 msgid "msg_quota_exceeded"
 msgstr ""
 
