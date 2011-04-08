@@ -5,6 +5,9 @@ Changelog
 1.0b3
 -----
 
+* Fixed test-plone-4.0.x.cfg buildout
+  [lgraf]
+
 
 1.0b2
 -----
