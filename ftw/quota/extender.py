@@ -64,4 +64,6 @@ class QuotaExtender(object):
         self.context = context
 
     def getFields(self):
+        """Returns this schema's fields
+        """
         return self.fields
