@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = open('ftw/quota/version.txt').read().strip()
+version = '1.0dev'
 maintainer = 'Thomas Buchberger'
 
 tests_require = ['collective.testcaselayer']
