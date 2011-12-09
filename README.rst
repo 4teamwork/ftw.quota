@@ -43,7 +43,7 @@ Links
 - Main github project repository: https://github.com/4teamwork/ftw.quota
 - Issue tracker: https://github.com/4teamwork/ftw.quota/issues
 - Package on pypi: http://pypi.python.org/pypi/ftw.quota
-- Continous integration: https://jenkins.4teamwork.ch/job/ftw.quota/
+- Continuous integration: https://jenkins.4teamwork.ch/job/ftw.quota/
 
 
 Maintainer
