@@ -22,7 +22,8 @@ class QuotaExtender(object):
 
     fields = [
 
-        QuotaIntegerField("quota",
+        QuotaIntegerField(
+            name='quota',
             schemata='quota',
             required=False,
             default=52428800,
@@ -33,7 +34,8 @@ class QuotaExtender(object):
                 description=_(u'help_quota', default=u''),
                 size=20)),
 
-        QuotaIntegerField("usage",
+        QuotaIntegerField(
+            name='usage',
             schemata='quota',
             required=False,
             searchable=False,
@@ -44,7 +46,8 @@ class QuotaExtender(object):
                 description=_(u'help_quota', default=u''),
                 size=20)),
 
-        QuotaBooleanField("enforce",
+        QuotaBooleanField(
+            name='enforce',
             schemata='quota',
             required=False,
             default=True,
