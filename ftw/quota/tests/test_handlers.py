@@ -4,6 +4,44 @@ from ftw.quota import handlers
 from ftw.quota.interfaces import IQuotaSupport
 from ftw.quota.testing import ZCML_LAYER
 from ftw.testing import MockTestCase
+from mocker import ANY
+from zExceptions import Redirect
+from zope.annotation.interfaces import IAttributeAnnotatable
+
+
+class TestRaiseQuotaExceeded(MockTestCase):
+
+    layer = ZCML_LAYER
+
+    def test_exceeding_raised_when_quota_enforced(self):
+        context = self.providing_stub(IQuotaSupport)
+        self.expect(context.Schema().getField(
+                'enforce').get(context)).result(True)
+        self.expect(context.absolute_url()).result('/plone/foo')
+
+        request = self.stub_request(interfaces=[IAttributeAnnotatable])
+        self.expect(context.REQUEST).result(request)
+        cookies = {}
+        self.expect(request.cookies).result(cookies)
+
+        plone_utils = self.mocker.mock()
+        self.mock_tool(plone_utils, 'plone_utils')
+        self.expect(plone_utils.addPortalMessage(ANY, 'error'))
+
+        self.replay()
+
+        with self.assertRaises(Redirect) as cm:
+            handlers.raise_quota_exceeded(context)
+
+        self.assertEqual(cm.exception.args, ('/plone/foo',))
+
+    def test_no_exceeding_raised_when_not_enforced(self):
+        context = self.providing_stub(IQuotaSupport)
+        self.expect(context.Schema().getField(
+                'enforce').get(context)).result(False)
+
+        self.replay()
+        handlers.raise_quota_exceeded(context)
 
 
 class TestFindQuotaParent(MockTestCase):
