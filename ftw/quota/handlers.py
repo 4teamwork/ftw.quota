@@ -8,6 +8,7 @@ from ftw.quota.interfaces import IQuotaSize
 from ftw.quota.interfaces import IQuotaSupport
 from zExceptions import Redirect
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getAdapter
 
 
 def raise_quota_exceeded(parent):
@@ -50,7 +51,8 @@ def find_quota_parent(parent):
 def object_added_or_modified(obj, event):
     """ handle adding and modifying of objects.
     """
-    dsize = IQuotaSize(obj).update_size()
+
+    dsize = getAdapter(obj, IQuotaSize).update_size()
     if dsize == 0:
         return
 
@@ -70,11 +72,12 @@ def object_added_or_modified(obj, event):
 def object_moved(obj, event):
     """ handle copy/cut/paste of objects.
     """
+
     # don't deal with unfinished archetypes objects
     if obj.checkCreationFlag():
         return
 
-    size = IQuotaSize(obj).get_size()
+    size = getAdapter(obj, IQuotaSize).get_size()
     if size == 0:
         return
 
