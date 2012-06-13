@@ -6,8 +6,10 @@ maintainer = 'Thomas Buchberger'
 
 tests_require = [
     'collective.testcaselayer',
+    'ftw.testing',
     'Plone',
     ]
+
 
 setup(name='ftw.quota',
       version=version,

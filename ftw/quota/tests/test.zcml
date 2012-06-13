@@ -1,0 +1,8 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+    <include package="Products.Five" file="meta.zcml" />
+
+    <include package="ftw.quota" />
+
+</configure>
