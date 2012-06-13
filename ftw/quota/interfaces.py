@@ -5,9 +5,11 @@ class IQuotaAware(Interface):
     """ marker interface for objects that are quota aware.
     """
 
+
 class IQuotaSupport(Interface):
     """ marker interface for containers with quota support.
     """
+
 
 class IQuotaSize(Interface):
     """ an adapter that stores the size of an object used for quota

@@ -5,7 +5,7 @@ ptc.setupPloneSite()
 
 class IntegrationTestLayer(collective.testcaselayer.ptc.BasePTCLayer):
 
-    def afterSetUp(self):          
+    def afterSetUp(self):
 
         # import extension profile
         self.addProfile('ftw.quota:default')

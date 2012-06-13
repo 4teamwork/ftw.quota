@@ -1,13 +1,13 @@
-from ftw.quota.interfaces import IQuotaSupport
-from Products.CMFCore.interfaces import ISiteRoot
 from Acquisition import aq_parent
-from zExceptions import Redirect
-from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IBaseObject
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
 from Products.statusmessages import STATUSMESSAGEKEY
-from zope.annotation.interfaces import IAnnotations
-from ftw.quota.interfaces import IQuotaSize
 from ftw.quota import _
+from ftw.quota.interfaces import IQuotaSize
+from ftw.quota.interfaces import IQuotaSupport
+from zExceptions import Redirect
+from zope.annotation.interfaces import IAnnotations
 
 
 def raise_quota_exceeded(parent):
@@ -31,18 +31,21 @@ def raise_quota_exceeded(parent):
     putils = getToolByName(parent, 'plone_utils')
     putils.addPortalMessage(_(u'msg_quota_exceeded',
                               default=u'Quota exceeded.'), 'error')
-    raise Redirect, parent.absolute_url()
+    raise Redirect(parent.absolute_url())
+
 
 def find_quota_parent(parent):
     """ find a parent container that has quota support.
     """
     if not IBaseObject.providedBy(parent):
         return None
-    while not IQuotaSupport.providedBy(parent) and not ISiteRoot.providedBy(parent):
+    while not IQuotaSupport.providedBy(parent) and \
+            not ISiteRoot.providedBy(parent):
         parent = aq_parent(parent)
     if IQuotaSupport.providedBy(parent):
         return parent
     return None
+
 
 def object_added_or_modified(obj, event):
     """ handle adding and modifying of objects.
@@ -61,7 +64,7 @@ def object_added_or_modified(obj, event):
         if used + dsize > quota:
             raise_quota_exceeded(parent)
         # update usage
-        schema.getField('usage').set(parent, used+dsize)
+        schema.getField('usage').set(parent, used + dsize)
 
 
 def object_moved(obj, event):
@@ -80,7 +83,7 @@ def object_moved(obj, event):
         if parent is not None:
             schema = parent.Schema()
             used = schema.getField('usage').get(parent)
-            schema.getField('usage').set(parent, used-size)
+            schema.getField('usage').set(parent, used - size)
 
     if event.newParent is not None:
         parent = find_quota_parent(event.newParent)
@@ -90,4 +93,4 @@ def object_moved(obj, event):
             used = schema.getField('usage').get(parent)
             if used + size > quota:
                 raise_quota_exceeded(parent)
-            schema.getField('usage').set(parent, used+size)
+            schema.getField('usage').set(parent, used + size)

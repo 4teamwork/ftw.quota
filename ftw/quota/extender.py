@@ -1,11 +1,11 @@
-from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.field import ExtensionField
 from Products.Archetypes import atapi
-from ftw.quota.interfaces import IQuotaSupport
-from zope.interface import implements
-from zope.component import adapts
 from Products.CMFCore.permissions import ManagePortal
+from archetypes.schemaextender.field import ExtensionField
+from archetypes.schemaextender.interfaces import ISchemaExtender
 from ftw.quota import _
+from ftw.quota.interfaces import IQuotaSupport
+from zope.component import adapts
+from zope.interface import implements
 
 
 class QuotaIntegerField(ExtensionField, atapi.IntegerField):
@@ -19,45 +19,40 @@ class QuotaBooleanField(ExtensionField, atapi.BooleanField):
 class QuotaExtender(object):
     implements(ISchemaExtender)
     adapts(IQuotaSupport)
-    
+
     fields = [
+
         QuotaIntegerField("quota",
-            schemata = 'quota',
-            required = False,
-            default = 52428800,
-            write_permission = ManagePortal,
-            searchable = False,
-                widget = atapi.IntegerWidget(
-                label = _(u'label_quota', default=u'Quota (Bytes)'),
-                description = _(u'help_quota', default=u''),
-                size = 20,
-            ),
-        ),
-        
+            schemata='quota',
+            required=False,
+            default=52428800,
+            write_permission=ManagePortal,
+            searchable=False,
+                widget=atapi.IntegerWidget(
+                label=_(u'label_quota', default=u'Quota (Bytes)'),
+                description=_(u'help_quota', default=u''),
+                size=20)),
+
         QuotaIntegerField("usage",
-            schemata = 'quota',
-            required = False,
-            searchable = False,
-            default = 0,
-            write_permission = ManagePortal,
-            widget = atapi.IntegerWidget(
-                label = _(u'label_usage', default=u'Usage (Bytes)'),
-                description = _(u'help_quota', default=u''),
-                size = 20,
-                #visible = {'view': 'visible', 'edit': 'invisible'},
-            ),
-        ),
-        
+            schemata='quota',
+            required=False,
+            searchable=False,
+            default=0,
+            write_permission=ManagePortal,
+            widget=atapi.IntegerWidget(
+                label=_(u'label_usage', default=u'Usage (Bytes)'),
+                description=_(u'help_quota', default=u''),
+                size=20)),
+
         QuotaBooleanField("enforce",
-            schemata = 'quota',
-            required = False,
-            default = True,
-            write_permission = ManagePortal,
-            widget = atapi.BooleanWidget(
-                label = _(u'label_enforce', default=u'Enforce Quota'),
-                description = _(u'help_enforce', default=u''),
-            ),
-        ),
+            schemata='quota',
+            required=False,
+            default=True,
+            write_permission=ManagePortal,
+            widget=atapi.BooleanWidget(
+                label=_(u'label_enforce', default=u'Enforce Quota'),
+                description=_(u'help_enforce', default=u''))),
+
     ]
 
     def __init__(self, context):
