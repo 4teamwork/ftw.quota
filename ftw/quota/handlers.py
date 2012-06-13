@@ -1,4 +1,4 @@
-from Acquisition import aq_parent
+from Acquisition import aq_parent, aq_inner
 from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
@@ -36,15 +36,24 @@ def raise_quota_exceeded(parent):
 
 
 def find_quota_parent(parent):
-    """ find a parent container that has quota support.
+    """ Find the first parent container that has quota support.
     """
-    if not IBaseObject.providedBy(parent):
-        return None
-    while not IQuotaSupport.providedBy(parent) and \
-            not ISiteRoot.providedBy(parent):
-        parent = aq_parent(parent)
-    if IQuotaSupport.providedBy(parent):
-        return parent
+
+    obj = parent
+
+    while obj:
+        if not IBaseObject.providedBy(obj):
+            return None
+
+        elif ISiteRoot.providedBy(obj):
+            return None
+
+        elif IQuotaSupport.providedBy(obj):
+            return obj
+
+        else:
+            obj = aq_parent(aq_inner(obj))
+
     return None
 
 
