@@ -1,7 +1,7 @@
 from Products.Archetypes.interfaces import IBaseObject
 from Products.CMFCore.interfaces import ISiteRoot
 from ftw.quota import handlers
-from ftw.quota.interfaces import IQuotaSupport
+from ftw.quota.interfaces import IQuotaSupport, IQuotaAware
 from ftw.quota.testing import ZCML_LAYER
 from ftw.testing import MockTestCase
 from mocker import ANY
@@ -95,3 +95,26 @@ class TestFindQuotaParent(MockTestCase):
         context = None
         self.replay()
         self.assertEqual(handlers.find_quota_parent(context), None)
+
+
+class TestObjectAddedOrModified(MockTestCase):
+
+    layer = ZCML_LAYER
+
+    def test_object_added_increases_usage(self):
+        container = self.providing_mock([IBaseObject, IQuotaSupport])
+        context = self.providing_stub(
+            [IBaseObject, IAttributeAnnotatable, IQuotaAware])
+        self.set_parent(context, container)
+
+        self.expect(context.get_size()).result(5)
+
+        schema = self.mocker.mock()
+        self.expect(container.Schema()).result(schema).count(0, None)
+        self.expect(schema.getField('quota').get(container)).result(100)
+        self.expect(schema.getField('usage').get(container)).result(10)
+        self.expect(schema.getField('usage').set(container, 15))
+
+        self.replay()
+
+        handlers.object_added_or_modified(context, None)
