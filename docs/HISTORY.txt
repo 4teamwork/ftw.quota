@@ -5,6 +5,9 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Update readme.
+  [jone]
+
 - Fixed test-plone-4.0.x.cfg buildout
   [lgraf]
 
@@ -48,4 +51,3 @@ Changelog
 
 - Intial implementation
   [buchberger]
-
