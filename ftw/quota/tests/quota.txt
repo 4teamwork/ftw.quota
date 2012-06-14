@@ -1,10 +1,15 @@
 
+    >>> portal = layer['portal']
+    >>> folder = portal.get(portal.invokeFactory(
+    ...                     'Folder', 'quota-test-folder'))
+
+
 Create a folder
 
     >>> from ftw.quota.interfaces import IQuotaSupport
     >>> from zope.interface import alsoProvides
-    >>> myid = self.folder.invokeFactory('Folder', 'qfolder')
-    >>> qfolder = self.folder[myid]
+    >>> myid = folder.invokeFactory('Folder', 'qfolder')
+    >>> qfolder = folder[myid]
     >>> IQuotaSupport.providedBy(qfolder)
     False
 
@@ -103,10 +108,10 @@ exceeds our quota.
 
 
     >>> dummyfile = StringIO(110*'1')
-    >>> myid = self.folder.invokeFactory('File', 'file4', file=dummyfile)
+    >>> myid = folder.invokeFactory('File', 'file4', file=dummyfile)
     >>> file4 = folder[myid]
     >>> file4.processForm()
-    >>> cp_data = self.folder.manage_copyObjects(ids=[myid])
+    >>> cp_data = folder.manage_copyObjects(ids=[myid])
     >>> qfolder.manage_pasteObjects(cp_data)
     Traceback (most recent call last):
     ..
@@ -124,7 +129,7 @@ back the space occupied by the file.
     >>> import transaction
     >>> dummy = transaction.savepoint() # needed for cutObjects
     >>> cp_data = qfolder.manage_cutObjects(ids=[myid,])
-    >>> dummy = self.folder.manage_pasteObjects(cp_data)
+    >>> dummy = folder.manage_pasteObjects(cp_data)
     >>> schema.getField('usage').get(qfolder)
     50
 

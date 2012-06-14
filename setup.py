@@ -5,9 +5,8 @@ version = '1.0dev'
 maintainer = 'Thomas Buchberger'
 
 tests_require = [
-    'collective.testcaselayer',
+    'plone.app.testing',
     'ftw.testing',
-    'Plone',
     ]
 
 
