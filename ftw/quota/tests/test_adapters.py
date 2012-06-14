@@ -45,3 +45,11 @@ class TestQuotaSizeAnnotation(MockTestCase):
 
         self.assertEqual(size.update_size(), -10)
         self.assertEqual(size.get_size(), 40)
+
+    def test_get_size_updates_size(self):
+        self.expect(self.context.get_size()).result(20)
+
+        self.replay()
+        size = queryAdapter(self.context, IQuotaSize)
+        self.assertEqual(size.get_size(), 20)
+        self.assertEqual(size.get_size(), 20)
