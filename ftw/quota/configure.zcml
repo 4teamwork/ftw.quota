@@ -4,12 +4,11 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ftw.quota">
 
-    <five:registerPackage package="." initialize=".initialize" />
     <i18n:registerTranslations directory="locales" />
 
     <!-- schema extender for quota support -->
     <include package="archetypes.schemaextender" />
-    <adapter 
+    <adapter
         name="ftw.quota.extender.QuotaExtender"
         factory="ftw.quota.extender.QuotaExtender"/>
 
@@ -17,7 +16,7 @@
     <subscriber for=".interfaces.IQuotaAware
                      Products.Archetypes.interfaces.IObjectEditedEvent"
                 handler=".handlers.object_added_or_modified" />
-                
+
     <subscriber for=".interfaces.IQuotaAware
                      Products.Archetypes.interfaces.IObjectInitializedEvent"
                 handler=".handlers.object_added_or_modified" />
@@ -33,7 +32,7 @@
     <!--five:implements
         class="Products.Archetypes.BaseObject.BaseObject"
         interface="ftw.quota.interfaces.IQuotaAware"
-    /-->
+        /-->
 
 
 </configure>

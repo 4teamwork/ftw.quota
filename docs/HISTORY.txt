@@ -5,6 +5,15 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Use plone.app.testing instead of collective.testcaselayer for testing.
+  [jone]
+
+- Remove unused product initialization.
+  [jone]
+
+- Update readme.
+  [jone]
+
 - Fixed test-plone-4.0.x.cfg buildout
   [lgraf]
 
@@ -48,4 +57,3 @@ Changelog
 
 - Intial implementation
   [buchberger]
-

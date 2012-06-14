@@ -5,9 +5,10 @@ version = '1.0dev'
 maintainer = 'Thomas Buchberger'
 
 tests_require = [
-    'collective.testcaselayer',
-    'Plone',
+    'plone.app.testing',
+    'ftw.testing',
     ]
+
 
 setup(name='ftw.quota',
       version=version,

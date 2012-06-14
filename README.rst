@@ -37,6 +37,22 @@ zcml directive:
     ... </class>
 
 
+The quota configuration is stored using additional fields (schema extender)
+and can be accessed easily:
+
+::
+
+    >>> container.Schema().getField('quota').get(container)
+    ... ...  # quota in bytes
+    >>> container.Schema().getField('usage').get(container)
+    ... ...  # usage in bytes
+    >>> container.Schema().getField('enforce').get(container)
+    ... True  # when True it is not possible to add content when quota is exceeded
+
+
+Nested quota containers are not supported at the moment.
+
+
 Links
 -----
 

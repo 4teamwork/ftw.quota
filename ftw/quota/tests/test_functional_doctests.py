@@ -1,16 +1,8 @@
-import unittest
+from ftw.quota.testing import FTW_QUOTA_INTEGRATION_TESTING
+from plone.testing import layered
 import doctest
+import unittest2 as unittest
 
-from Testing import ZopeTestCase
-from Products.PloneTestCase import ptc
-from ftw.quota.tests import layer
-
-MODULENAMES = [
-]
-
-TESTFILES = [
-    'tests/quota.txt',
-]
 
 OPTIONFLAGS = (doctest.NORMALIZE_WHITESPACE|
                doctest.ELLIPSIS|
@@ -18,25 +10,10 @@ OPTIONFLAGS = (doctest.NORMALIZE_WHITESPACE|
 
 
 def test_suite():
-
     suite = unittest.TestSuite()
-
-    for testfile in TESTFILES:
-        suite.addTest(ZopeTestCase.FunctionalDocFileSuite(
-            testfile,
-            optionflags=OPTIONFLAGS,
-            test_class=ptc.FunctionalTestCase,
-            package="ftw.quota", ))
-
-    for module in MODULENAMES:
-        suite.addTest(ZopeTestCase.FunctionalDocTestSuite(
-            module,
-            optionflags=OPTIONFLAGS,
-            test_class=ptc.FunctionalTestCase, ))
-
-    suite.layer = layer.layer
-
+    suite.addTests([
+            layered(doctest.DocFileSuite('quota.txt',
+                                         optionflags=OPTIONFLAGS),
+                    layer=FTW_QUOTA_INTEGRATION_TESTING),
+            ])
     return suite
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

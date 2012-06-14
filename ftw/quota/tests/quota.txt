@@ -1,10 +1,15 @@
 
+    >>> portal = layer['portal']
+    >>> folder = portal.get(portal.invokeFactory(
+    ...                     'Folder', 'quota-test-folder'))
+
+
 Create a folder
 
     >>> from ftw.quota.interfaces import IQuotaSupport
     >>> from zope.interface import alsoProvides
-    >>> myid = self.folder.invokeFactory('Folder', 'qfolder')
-    >>> qfolder = self.folder[myid]
+    >>> myid = folder.invokeFactory('Folder', 'qfolder')
+    >>> qfolder = folder[myid]
     >>> IQuotaSupport.providedBy(qfolder)
     False
 
@@ -26,7 +31,7 @@ By default, the quota limit is set to 50MB and quota is enabled.
     >>> field = schema.getField('enforce')
     >>> field.get(qfolder)
     True
-    
+
 Set quota to 100 Bytes.
 
     >>> field = schema.getField('quota')
@@ -56,7 +61,7 @@ Now let's create a file with a size of 70 bytes
     >>> file2.processForm()
     >>> schema.getField('usage').get(qfolder)
     70
-    
+
 Let's add that file again, this should exceed our quota.
 This is signaled by a Redirect Exception.
 
@@ -103,10 +108,10 @@ exceeds our quota.
 
 
     >>> dummyfile = StringIO(110*'1')
-    >>> myid = self.folder.invokeFactory('File', 'file4', file=dummyfile)
+    >>> myid = folder.invokeFactory('File', 'file4', file=dummyfile)
     >>> file4 = folder[myid]
     >>> file4.processForm()
-    >>> cp_data = self.folder.manage_copyObjects(ids=[myid])
+    >>> cp_data = folder.manage_copyObjects(ids=[myid])
     >>> qfolder.manage_pasteObjects(cp_data)
     Traceback (most recent call last):
     ..
@@ -124,7 +129,7 @@ back the space occupied by the file.
     >>> import transaction
     >>> dummy = transaction.savepoint() # needed for cutObjects
     >>> cp_data = qfolder.manage_cutObjects(ids=[myid,])
-    >>> dummy = self.folder.manage_pasteObjects(cp_data)
+    >>> dummy = folder.manage_pasteObjects(cp_data)
     >>> schema.getField('usage').get(qfolder)
     50
 
