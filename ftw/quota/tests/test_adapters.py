@@ -11,6 +11,7 @@ class TestQuotaSizeAnnotation(MockTestCase):
     layer = ZCML_LAYER
 
     def setUp(self):
+        super(TestQuotaSizeAnnotation, self).setUp()
         self.context = self.providing_stub(
             [IBaseObject, IAttributeAnnotatable])
 
