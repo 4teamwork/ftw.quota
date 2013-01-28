@@ -17,14 +17,15 @@ setup(name='ftw.quota',
           open(os.path.join('docs', 'HISTORY.txt')).read(),
 
       # Get more strings from
-      # http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      # http://www.python.org/pypi?%3Aaction=list_classifiers
+
       classifiers=[
         'Framework :: Plone',
         'Framework :: Plone :: 4.0',
         'Framework :: Plone :: 4.1',
-        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Framework :: Plone :: 4.2',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
+        'Topic :: Software Development :: Libraries :: Python Modules',
         ],
 
       keywords='ftw quota plone',
