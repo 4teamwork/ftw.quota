@@ -1,10 +1,11 @@
-from Products.Archetypes.interfaces import IBaseObject
-from Products.CMFCore.interfaces import ISiteRoot
+from borg.localrole.interfaces import IFactoryTempFolder
 from ftw.quota import handlers
 from ftw.quota.interfaces import IQuotaSupport, IQuotaAware
 from ftw.quota.testing import ZCML_LAYER
 from ftw.testing import MockTestCase
 from mocker import ANY
+from Products.Archetypes.interfaces import IBaseObject
+from Products.CMFCore.interfaces import ISiteRoot
 from zExceptions import Redirect
 from zope.annotation.interfaces import IAttributeAnnotatable
 
@@ -69,6 +70,19 @@ class TestFindQuotaParent(MockTestCase):
 
         self.replay()
         self.assertEqual(handlers.find_quota_parent(context), first)
+
+    def test_is_in_factory(self):
+        context = self.providing_stub([IFactoryTempFolder])
+        first = self.stub()
+        second = self.providing_stub([IBaseObject])
+        third = self.providing_stub([IBaseObject, IQuotaSupport])
+
+        self.set_parent(context,
+            self.set_parent(first,
+                self.set_parent(second, third)))
+
+        self.replay()
+        self.assertEqual(handlers.find_quota_parent(context), third)
 
     def test_stop_when_site_root_reached(self):
         context = self.providing_stub([IBaseObject])

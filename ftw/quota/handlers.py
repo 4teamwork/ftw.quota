@@ -9,6 +9,7 @@ from ftw.quota.interfaces import IQuotaSupport
 from zExceptions import Redirect
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from borg.localrole.interfaces import IFactoryTempFolder
 
 
 def raise_quota_exceeded(parent):
@@ -40,8 +41,11 @@ def find_quota_parent(parent):
     """
 
     obj = parent
-
     while obj:
+        if IFactoryTempFolder.providedBy(obj):
+            # Go up twice
+            obj = aq_parent(aq_parent(aq_inner(obj)))
+
         if not IBaseObject.providedBy(obj):
             return None
 
