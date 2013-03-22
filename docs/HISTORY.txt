@@ -5,7 +5,8 @@ Changelog
 1.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Quota handler now also works in portal_factory.
+  Ex. zope.lifecycleevent.interfaces.IObjectCreatedEvent works correctly.
 
 
 1.0 (2012-06-14)
