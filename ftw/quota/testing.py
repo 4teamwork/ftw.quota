@@ -1,6 +1,7 @@
 from ftw.builder.testing import BUILDER_LAYER
+from ftw.quota.interfaces import IQuotaAware
 from ftw.quota.interfaces import IQuotaSupport
-from ftw.testing.layer import ComponentRegistryLayer
+from plone.app.blob.content import ATBlob
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import login
 from plone.app.testing import PLONE_FIXTURE
@@ -12,17 +13,6 @@ from Products.ATContentTypes.content.folder import ATFolder
 from zope.configuration import xmlconfig
 from zope.interface import classImplements
 
-
-class ZCMLLayer(ComponentRegistryLayer):
-
-    def setUp(self):
-        super(ZCMLLayer, self).setUp()
-
-        import ftw.quota.tests
-        self.load_zcml_file('test.zcml', ftw.quota.tests)
-
-
-ZCML_LAYER = ZCMLLayer()
 
 
 class FtwQuotaLayer(PloneSandboxLayer):
@@ -38,8 +28,8 @@ class FtwQuotaLayer(PloneSandboxLayer):
         xmlconfig.file('configure.zcml', ftw.quota,
                        context=configurationContext)
 
-        # let folders always have quotas enabled in tests.
         classImplements(ATFolder, IQuotaSupport)
+        classImplements(ATBlob, IQuotaAware)
 
     def setUpPloneSite(self, portal):
         setRoles(portal, TEST_USER_ID, ['Manager'])
