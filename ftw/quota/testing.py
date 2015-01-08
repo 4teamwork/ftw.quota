@@ -1,7 +1,12 @@
+from ftw.builder.testing import BUILDER_LAYER
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import login
+from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import setRoles, TEST_USER_ID, TEST_USER_NAME, login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from zope.configuration import xmlconfig
 
 
@@ -18,6 +23,8 @@ ZCML_LAYER = ZCMLLayer()
 
 
 class FtwQuotaLayer(PloneSandboxLayer):
+
+    defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
         import archetypes.schemaextender
