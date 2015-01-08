@@ -5,6 +5,9 @@ Changelog
 1.1 (unreleased)
 ----------------
 
+- Drop Plone 4.0 Support.
+  [jone]
+
 - Quota handler now also works in portal_factory.
   Ex. zope.lifecycleevent.interfaces.IObjectCreatedEvent works correctly.
 
