@@ -11,12 +11,6 @@ Create a folder
     >>> myid = folder.invokeFactory('Folder', 'qfolder')
     >>> qfolder = folder[myid]
     >>> IQuotaSupport.providedBy(qfolder)
-    False
-
-Enable quota support
-
-    >>> alsoProvides(qfolder, IQuotaSupport)
-    >>> IQuotaSupport.providedBy(qfolder)
     True
 
 By default, the quota limit is set to 50MB and quota is enabled.
@@ -143,7 +137,7 @@ Space usage should remain the same.
     >>> file1 = subfolder[myid]
     >>> file1.processForm()
     >>> schema.getField('usage').get(qfolder)
-    70
+    50
     >>> dummy = transaction.savepoint() # needed for cutObjects
     >>> cp_data = subfolder.manage_cutObjects(ids=[myid,])
     >>> dummy = qfolder.manage_pasteObjects(cp_data)
