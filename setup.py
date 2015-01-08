@@ -5,8 +5,8 @@ version = '1.1.dev0'
 maintainer = 'Thomas Buchberger'
 
 tests_require = [
+    'ftw.builder',
     'plone.app.testing',
-    'ftw.testing',
     ]
 
 
@@ -21,7 +21,6 @@ setup(name='ftw.quota',
 
       classifiers=[
         'Framework :: Plone',
-        'Framework :: Plone :: 4.0',
         'Framework :: Plone :: 4.1',
         'Framework :: Plone :: 4.2',
         'Programming Language :: Python',

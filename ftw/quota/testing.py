@@ -1,23 +1,23 @@
-from ftw.testing.layer import ComponentRegistryLayer
+from ftw.builder.testing import BUILDER_LAYER
+from ftw.quota.interfaces import IQuotaAware
+from ftw.quota.interfaces import IQuotaSupport
+from plone.app.blob.content import ATBlob
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import login
+from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import setRoles, TEST_USER_ID, TEST_USER_NAME, login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from Products.ATContentTypes.content.folder import ATFolder
 from zope.configuration import xmlconfig
+from zope.interface import classImplements
 
-
-class ZCMLLayer(ComponentRegistryLayer):
-
-    def setUp(self):
-        super(ZCMLLayer, self).setUp()
-
-        import ftw.quota.tests
-        self.load_zcml_file('test.zcml', ftw.quota.tests)
-
-
-ZCML_LAYER = ZCMLLayer()
 
 
 class FtwQuotaLayer(PloneSandboxLayer):
+
+    defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
         import archetypes.schemaextender
@@ -27,6 +27,9 @@ class FtwQuotaLayer(PloneSandboxLayer):
         import ftw.quota
         xmlconfig.file('configure.zcml', ftw.quota,
                        context=configurationContext)
+
+        classImplements(ATFolder, IQuotaSupport)
+        classImplements(ATBlob, IQuotaAware)
 
     def setUpPloneSite(self, portal):
         setRoles(portal, TEST_USER_ID, ['Manager'])
