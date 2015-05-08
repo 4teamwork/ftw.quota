@@ -56,9 +56,9 @@ Nested quota containers are not supported at the moment.
 Links
 -----
 
-- Main github project repository: https://github.com/4teamwork/ftw.quota
-- Issue tracker: https://github.com/4teamwork/ftw.quota/issues
-- Package on pypi: http://pypi.python.org/pypi/ftw.quota
+- Github: https://github.com/4teamwork/ftw.quota
+- Issues: https://github.com/4teamwork/ftw.quota/issues
+- Pypi: http://pypi.python.org/pypi/ftw.quota
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.quota
 
 
