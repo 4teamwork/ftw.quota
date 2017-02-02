@@ -5,7 +5,7 @@ Changelog
 1.1 (unreleased)
 ----------------
 
-- Drop Plone 4.0 Support.
+- Drop Plone 4.0 and 4.1 support.
   [jone]
 
 - Quota handler now also works in portal_factory.
